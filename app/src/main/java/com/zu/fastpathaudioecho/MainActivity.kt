@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         playState = false
 
-        nInit(sampleRate, framesPerBuffer, 3)
+        nInit(sampleRate, framesPerBuffer, 1)
         btn_start.setOnClickListener{
             if(playState)
             {

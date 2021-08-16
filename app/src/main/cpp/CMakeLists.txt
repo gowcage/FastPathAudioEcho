@@ -3,12 +3,14 @@
 
 # Sets the minimum version of CMake required to build the native library.
 
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.18.1)
+project(FastPathAudioEcho LANGUAGES CXX)
 
 file(GLOB CPP_FILES "./*.cpp", "./SLESEcho/*.cpp", "./AAudioEcho/*.cpp", "./OboeEcho/*.cpp")
 
 include_directories("./", "./SLESEcho/", "./AAudioEcho/", "./OboeEcho/")
 
+find_package(oboe REQUIRED CONFIG)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -26,17 +28,17 @@ add_library( # Sets the name of the library.
         ${CPP_FILES})
 
 # Set the path to the Oboe directory.
-set (OBOE_DIR "D:\\workspace\\AndroidProject\\oboe")
+#set (OBOE_DIR "D:\\workspace\\AndroidProject\\oboe")
 # Add the Oboe library as a subdirectory in your project.
 # add_subdirectory tells CMake to look in this directory to
 # compile oboe source files using oboe's CMake file.
 # ./oboe specifies where the compiled binaries will be stored
-add_subdirectory (${OBOE_DIR} ./oboe)
+#add_subdirectory (${OBOE_DIR} ./oboe)
 
 # Specify the path to the Oboe header files.
 # This allows targets compiled with this CMake (application code)
 # to see public Oboe headers, in order to access its API.
-include_directories (${OBOE_DIR}/include)
+#include_directories (${OBOE_DIR}/include)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -51,15 +53,14 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
-
 target_link_libraries( # Specifies the target library.
         native-lib
         OpenSLES
         aaudio
-        oboe
+        #oboe
+        oboe::oboe
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib})
+
+#target_compile_options(native-lib PRIVATE -Wall -Werror "$<$<CONFIG:RELEASE>:-Ofast>")
